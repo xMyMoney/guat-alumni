@@ -1,7 +1,8 @@
 package com.zwx.guatalumni.module.activity.dao;
 
-import com.zwx.guatalumni.module.activity.model.Activity;
+import com.zwx.guatalumni.module.activity.model.entity.Activity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zwx
  * @since 2022-03-16
  */
+@Mapper
 public interface ActivityMapper extends BaseMapper<Activity> {
 
 }

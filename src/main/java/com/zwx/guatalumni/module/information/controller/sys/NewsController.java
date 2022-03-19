@@ -1,16 +1,17 @@
 package com.zwx.guatalumni.module.information.controller.sys;
 
 
+import com.zwx.guatalumni.common.base.BaseController;
+import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.model.response.ResponseResult;
+import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.News;
-import com.zwx.guatalumni.module.information.model.entity.ResBean;
 import com.zwx.guatalumni.module.information.model.param.NewsParam;
 import com.zwx.guatalumni.module.information.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -22,42 +23,57 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/news")
-public class NewsController {
+public class NewsController extends BaseController {
 
     @Autowired
     private NewsService newsService;
 
     @GetMapping("/list")
-    public ResBean getList(NewsParam newsParam) {
-        Map<String,Object> res = new HashMap<>();
-        res.put("list",newsService.findList(newsParam));
-        res.put("total",newsService.count());
-        return new ResBean<>("1",200,res);
+    public ResponseResult getList(NewsParam newsParam) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(newsService.findList(newsParam));
+        return setResult(baseResp);
     }
 
     @GetMapping("/one/{id}")
-    public ResBean getOne(@PathVariable String id) {
-        return new ResBean("1",200,newsService.getById(id));
+    public ResponseResult getOne(@PathVariable String id) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(newsService.getById(id));
+        return setResult(baseResp);
     }
 
     @PostMapping("/one")
-    public void addNews(@RequestBody News news) {
-        newsService.save(news);
+    public ResponseResult addNews(@RequestBody News news) {
+        BaseResp baseResp = new BaseResp();
+        if (!newsService.save(news)) {
+            baseResp.setSaveFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @PutMapping("/one")
-    public void updateNews(@RequestBody News news) {
-        newsService.updateById(news);
+    public ResponseResult updateNews(@RequestBody News news) {
+        BaseResp baseResp = new BaseResp();
+        if (!newsService.updateById(news)) {
+            baseResp.setUpdateFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @DeleteMapping("/one/{id}")
-    public void deleteNews(@PathVariable Integer id) {
-        newsService.removeById(id);
+    public ResponseResult deleteNews(@PathVariable Integer id) {
+        BaseResp baseResp = new BaseResp();
+        if (!newsService.removeById(id)) {
+            baseResp.setDeleteFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @DeleteMapping("/list")
-    public void deleteBatch(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
+        BaseResp baseResp = new BaseResp();
         newsService.deleteBatch(ids);
+        return setResult(baseResp);
     }
 
 }

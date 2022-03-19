@@ -1,7 +1,11 @@
 package com.zwx.guatalumni.module.activity.service;
 
-import com.zwx.guatalumni.module.activity.model.Activity;
+import com.zwx.guatalumni.common.model.vo.PageVo;
+import com.zwx.guatalumni.module.activity.model.entity.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zwx.guatalumni.module.activity.model.param.ActivityParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ActivityService extends IService<Activity> {
 
+    PageVo<Activity> findList(ActivityParam activityParam);
+
+    boolean deleteBatch(List<Integer> ids);
 }

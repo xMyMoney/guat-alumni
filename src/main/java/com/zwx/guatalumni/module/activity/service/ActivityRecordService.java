@@ -1,6 +1,6 @@
 package com.zwx.guatalumni.module.activity.service;
 
-import com.zwx.guatalumni.module.activity.model.ActivityRecord;
+import com.zwx.guatalumni.module.activity.model.entity.ActivityRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

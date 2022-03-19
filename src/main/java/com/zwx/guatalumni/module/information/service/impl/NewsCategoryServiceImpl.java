@@ -3,8 +3,8 @@ package com.zwx.guatalumni.module.information.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zwx.guatalumni.common.model.OptionsVo;
-import com.zwx.guatalumni.common.model.PageResult;
+import com.zwx.guatalumni.common.model.vo.OptionsVo;
+import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.NewsCategory;
 import com.zwx.guatalumni.module.information.dao.NewsCategoryMapper;
 import com.zwx.guatalumni.module.information.model.param.NewsCategoryParam;
@@ -36,13 +36,12 @@ public class NewsCategoryServiceImpl extends ServiceImpl<NewsCategoryMapper, New
     private NewsService newsService;
 
     @Override
-    public PageResult<NewsCategory> findList(NewsCategoryParam newsCategoryParam) {
+    public PageVo<NewsCategory> findList(NewsCategoryParam newsCategoryParam) {
         IPage<NewsCategory> page = new Page<>(newsCategoryParam.getCurrent(), newsCategoryParam.getPageSize());
         QueryWrapper<NewsCategory> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
                 .like(!StringUtils.isEmpty(newsCategoryParam.getName()), NewsCategory::getName, newsCategoryParam.getName());
-        //int newsCount = newsService.getNewsCountByCategory();
-        return new PageResult<>(categoryMapper.selectPage(page,queryWrapper).getRecords(),this.count());
+        return new PageVo<>(categoryMapper.selectPage(page,queryWrapper).getRecords(),this.count());
     }
 
     @Override

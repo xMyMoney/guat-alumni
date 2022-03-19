@@ -1,5 +1,6 @@
 package com.zwx.guatalumni.module.information.service;
 
+import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.News;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwx.guatalumni.module.information.model.param.NewsParam;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public interface NewsService extends IService<News> {
 
-    List<News> findList(NewsParam newsParam);
+    PageVo<News> findList(NewsParam newsParam);
 
     void deleteBatch(List<Integer> ids);
 

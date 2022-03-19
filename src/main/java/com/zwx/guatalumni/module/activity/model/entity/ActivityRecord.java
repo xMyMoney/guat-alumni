@@ -1,4 +1,4 @@
-package com.zwx.guatalumni.module.activity.model;
+package com.zwx.guatalumni.module.activity.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;

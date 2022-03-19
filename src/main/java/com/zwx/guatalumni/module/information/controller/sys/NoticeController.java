@@ -1,8 +1,11 @@
 package com.zwx.guatalumni.module.information.controller.sys;
 
 
+import com.zwx.guatalumni.common.base.BaseController;
+import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.model.response.ResponseResult;
+import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.Notice;
-import com.zwx.guatalumni.module.information.model.entity.ResBean;
 import com.zwx.guatalumni.module.information.model.param.NoticeParam;
 import com.zwx.guatalumni.module.information.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,42 +25,57 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/notice")
-public class NoticeController {
+public class NoticeController extends BaseController {
 
     @Autowired
     private NoticeService noticeService;
 
     @GetMapping("/list")
-    public ResBean getList(NoticeParam noticeParam) {
-        Map<String,Object> res = new HashMap<>();
-        res.put("list",noticeService.findList(noticeParam));
-        res.put("total",noticeService.count());
-        return new ResBean<>("1",200,res);
+    public ResponseResult getList(NoticeParam noticeParam) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(noticeService.findList(noticeParam));
+        return setResult(baseResp);
     }
 
     @GetMapping("/one/{id}")
-    public ResBean getOne(@PathVariable String id) {
-        return new ResBean("1",200,noticeService.getById(id));
+    public ResponseResult getOne(@PathVariable String id) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(noticeService.getById(id));
+        return setResult(baseResp);
     }
 
     @PostMapping("/one")
-    public void addNotice(@RequestBody Notice notice) {
-        noticeService.save(notice);
+    public ResponseResult addNotice(@RequestBody Notice notice) {
+        BaseResp baseResp = new BaseResp();
+        if (!noticeService.save(notice)) {
+            baseResp.setSaveFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @PutMapping("/one")
-    public void updateNotice(@RequestBody Notice notice) {
-        noticeService.updateById(notice);
+    public ResponseResult updateNotice(@RequestBody Notice notice) {
+        BaseResp baseResp = new BaseResp();
+        if (!noticeService.updateById(notice)) {
+            baseResp.setUpdateFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @DeleteMapping("/one/{id}")
-    public void deleteNotice(@PathVariable Integer id) {
-        noticeService.removeById(id);
+    public ResponseResult deleteNotice(@PathVariable Integer id) {
+        BaseResp baseResp = new BaseResp();
+        if (!noticeService.removeById(id)) {
+            baseResp.setDeleteFailMsg();
+        }
+        return setResult(baseResp);
     }
 
     @DeleteMapping("/list")
-    public void deleteBatch(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
+        BaseResp baseResp = new BaseResp();
         noticeService.deleteBatch(ids);
+        return setResult(baseResp);
     }
 
 }

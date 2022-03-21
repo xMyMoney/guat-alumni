@@ -4,16 +4,13 @@ package com.zwx.guatalumni.module.information.controller.sys;
 import com.zwx.guatalumni.common.base.BaseController;
 import com.zwx.guatalumni.common.base.BaseResp;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
-import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.Notice;
 import com.zwx.guatalumni.module.information.model.param.NoticeParam;
 import com.zwx.guatalumni.module.information.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

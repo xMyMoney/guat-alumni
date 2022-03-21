@@ -3,7 +3,12 @@
 <mapper namespace="com.zwx.guatalumni.module.activity.dao.ActivityCategoryMapper">
 
     <select id="selectPage" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityCategoryVo">
-        select c.id,c.name,c.create_time,c.update_time,c.is_delete,count(a.id) as activity_count from category c left join activity a
-            on(c.id = a.category_id) group by c.id
+        select c.id,c.name,c.create_time,c.update_time,c.is_delete,count(a.id) as activity_count
+        from activity_category c left join activity a on(c.id = a.category_id)
+        where is_delete = 0
+        <if test="name != '' and name != null">
+            and name like concat('%',#{name},'%')
+        </if>
+        group by c.id limit #{current},#{pageSize}
     </select>
 </mapper>

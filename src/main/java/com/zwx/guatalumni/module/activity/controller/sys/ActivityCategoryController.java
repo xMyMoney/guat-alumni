@@ -62,7 +62,7 @@ public class ActivityCategoryController extends BaseController {
     @DeleteMapping("/one/{id}")
     public ResponseResult deleteActivityCategoryCategory(@PathVariable Integer id) {
         BaseResp baseResp = new BaseResp();
-        if (!activityCategoryService.removeById(id)) {
+        if (!activityCategoryService.removeCategory(id)) {
             baseResp.setDeleteFailMsg();
         }
         return setResult(baseResp);

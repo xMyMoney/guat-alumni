@@ -1,7 +1,10 @@
 package com.zwx.guatalumni.module.activity.service;
 
+import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.activity.model.entity.ActivityRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zwx.guatalumni.module.activity.model.param.ActivityRecordParam;
+import com.zwx.guatalumni.module.activity.model.vo.ActivityRecordVo;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ActivityRecordService extends IService<ActivityRecord> {
 
+    PageVo<ActivityRecordVo> findList(ActivityRecordParam activityRecordParam);
 }

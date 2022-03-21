@@ -56,7 +56,7 @@ public class ActivityRecord implements Serializable {
     /**
      * 签到时间
      */
-    private Date siginTime;
+    private Date signTime;
 
 
     public Integer getId() {
@@ -115,12 +115,12 @@ public class ActivityRecord implements Serializable {
         this.signIn = signIn;
     }
 
-    public Date getSiginTime() {
-        return siginTime;
+    public Date getSignTime() {
+        return signTime;
     }
 
-    public void setSiginTime(Date siginTime) {
-        this.siginTime = siginTime;
+    public void setSignTime(Date signTime) {
+        this.signTime = signTime;
     }
 
     @Override
@@ -133,7 +133,7 @@ public class ActivityRecord implements Serializable {
         ", alumniId=" + alumniId +
         ", activityId=" + activityId +
         ", signIn=" + signIn +
-        ", siginTime=" + siginTime +
+        ", siginTime=" + signTime +
         "}";
     }
 }

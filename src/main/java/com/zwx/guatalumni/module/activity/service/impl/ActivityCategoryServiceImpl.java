@@ -11,6 +11,7 @@ import com.zwx.guatalumni.module.activity.model.param.ActivityCategoryParam;
 import com.zwx.guatalumni.module.activity.model.vo.ActivityCategoryVo;
 import com.zwx.guatalumni.module.activity.service.ActivityCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zwx.guatalumni.module.activity.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,6 +33,9 @@ public class ActivityCategoryServiceImpl extends ServiceImpl<ActivityCategoryMap
     @Autowired
     private ActivityCategoryMapper activityCategoryMapper;
 
+    @Autowired
+    private ActivityService activityService;
+
     @Override
     public PageVo<ActivityCategoryVo> findList(ActivityCategoryParam activityCategoryParam) {
         QueryWrapper<ActivityCategory> queryWrapper = new QueryWrapper<>();
@@ -45,6 +49,14 @@ public class ActivityCategoryServiceImpl extends ServiceImpl<ActivityCategoryMap
 
     @Override
     public boolean deleteBatch(List<Integer> ids) {
+        return false;
+    }
+
+    @Override
+    public boolean removeCategory(Integer id) {
+        if (activityService.defaultCategory(id)) {
+            return this.removeById(id);
+        }
         return false;
     }
 }

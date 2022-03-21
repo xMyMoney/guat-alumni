@@ -22,4 +22,11 @@ public interface ActivityCategoryService extends IService<ActivityCategory> {
     PageVo<ActivityCategoryVo> findList(ActivityCategoryParam activityCategoryParam);
 
     boolean deleteBatch(List<Integer> ids);
+
+    /**
+     * 删除分类并将该分类下的活动移至默认分类
+     * @param id
+     * @return
+     */
+    boolean removeCategory(Integer id);
 }

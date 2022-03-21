@@ -20,4 +20,6 @@ public interface ActivityService extends IService<Activity> {
     PageVo<Activity> findList(ActivityParam activityParam);
 
     boolean deleteBatch(List<Integer> ids);
+
+    boolean defaultCategory(Integer id);
 }

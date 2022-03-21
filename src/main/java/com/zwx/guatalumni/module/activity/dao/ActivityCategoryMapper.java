@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwx.guatalumni.module.activity.model.param.ActivityCategoryParam;
 import com.zwx.guatalumni.module.activity.model.vo.ActivityCategoryVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ import java.util.List;
 public interface ActivityCategoryMapper extends BaseMapper<ActivityCategory> {
     /**
      * 分页查询活动分类
-     * @param param
+     * @param activityCategoryParam
      * @return
      */
-    List<ActivityCategoryVo>  selectPage(ActivityCategoryParam param);
+    List<ActivityCategoryVo>  selectPage(ActivityCategoryParam activityCategoryParam);
 }

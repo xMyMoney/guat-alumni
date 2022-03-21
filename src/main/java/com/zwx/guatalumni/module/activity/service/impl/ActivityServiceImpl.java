@@ -1,6 +1,7 @@
 package com.zwx.guatalumni.module.activity.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwx.guatalumni.common.model.vo.PageVo;
@@ -44,5 +45,13 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     public boolean deleteBatch(List<Integer> ids) {
         int row = activityMapper.deleteBatchIds(ids);
         return row > 0;
+    }
+
+    @Override
+    public boolean defaultCategory(Integer id) {
+        UpdateWrapper<Activity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().set(Activity::getCategoryId,0)
+                .eq(Activity::getCategoryId,id);
+        return this.update(updateWrapper);
     }
 }

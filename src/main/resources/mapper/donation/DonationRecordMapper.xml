@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwx.guatalumni.module.donation.dao.DonationRecordMapper">
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(dr.id)
+        from donation_record dr
+        join alumni a on(dr.alumni_id = a.id)
+        join donation d on(dr.donation_id = d.id)
+        join alumni_foundation af on(d.foundation_id = af.id)
+        where dr.is_delete = 0
+        <if test="username != '' and username != null">
+            and a.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and d.title like concat('%',#{title},'%')
+        </if>
+        <if test="category != '' and category != null">
+            and d.category = category
+        </if>
+
+    </select>
+    <select id="getList" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationRecordVo">
+        select dr.id,a.username,dr.create_time, d.title,d.category,dr.money,dr.thing,dr.desc,af.`name` as foundation
+        from donation_record dr
+            join alumni a on(dr.alumni_id = a.id)
+            join donation d on(dr.donation_id = d.id)
+            join alumni_foundation af on(d.foundation_id = af.id)
+        where dr.is_delete = 0
+        <if test="username != '' and username != null">
+            and a.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and d.title like concat('%',#{title},'%')
+        </if>
+        <if test="category != '' and category != null">
+            and d.category = category
+        </if>
+        limit #{current},#{pageSize}
+    </select>
+</mapper>

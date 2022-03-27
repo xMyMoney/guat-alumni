@@ -1,11 +1,12 @@
-package com.zwx.guatalumni.module.alumni.controller.sys;
+package com.zwx.guatalumni.module.donation.controller.sys;
+
 
 import com.zwx.guatalumni.common.base.BaseController;
 import com.zwx.guatalumni.common.base.BaseResp;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
-import com.zwx.guatalumni.module.alumni.model.entity.Academy;
-import com.zwx.guatalumni.module.alumni.model.param.AcademyParam;
-import com.zwx.guatalumni.module.alumni.service.AcademyService;
+import com.zwx.guatalumni.module.donation.model.entity.Donation;
+import com.zwx.guatalumni.module.donation.model.param.DonationParam;
+import com.zwx.guatalumni.module.donation.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,55 +19,48 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-03-07
  */
 @RestController
-@RequestMapping("/academy")
-public class AcademyController extends BaseController {
+@RequestMapping("/donation")
+public class DonationController extends BaseController {
 
     @Autowired
-    private AcademyService academyService;
+    private DonationService donationService;
 
     @GetMapping("/list")
-    public ResponseResult getList(AcademyParam academyParam) {
+    public ResponseResult getList(DonationParam donationParam) {
         BaseResp baseResp = new BaseResp();
-        baseResp.setData(academyService.findList(academyParam));
-        return setResult(baseResp);
-    }
-
-    @GetMapping("/options")
-    public ResponseResult getOptions() {
-        BaseResp baseResp = new BaseResp();
-        baseResp.setData(academyService.getOptions());
+        baseResp.setData(donationService.findList(donationParam));
         return setResult(baseResp);
     }
 
     @GetMapping("/one/{id}")
     public ResponseResult getOne(@PathVariable String id) {
         BaseResp baseResp = new BaseResp();
-        baseResp.setData(academyService.getById(id));
+        baseResp.setData(donationService.getById(id));
         return setResult(baseResp);
     }
 
     @PostMapping("/one")
-    public ResponseResult addAcademy(@RequestBody Academy academy) {
+    public ResponseResult addDonation(@RequestBody Donation donation) {
         BaseResp baseResp = new BaseResp();
-        if (!academyService.save(academy)) {
+        if (!donationService.save(donation)) {
             baseResp.setSaveFailMsg();
         }
         return setResult(baseResp);
     }
 
     @PutMapping("/one")
-    public ResponseResult updateAcademy(@RequestBody Academy academy) {
+    public ResponseResult updateDonation(@RequestBody Donation donation) {
         BaseResp baseResp = new BaseResp();
-        if (!academyService.updateById(academy)) {
+        if (!donationService.updateById(donation)) {
             baseResp.setUpdateFailMsg();
         }
         return setResult(baseResp);
     }
 
     @DeleteMapping("/one/{id}")
-    public ResponseResult deleteAcademy(@PathVariable Integer id) {
+    public ResponseResult deleteDonation(@PathVariable Integer id) {
         BaseResp baseResp = new BaseResp();
-        if (!academyService.removeById(id)) {
+        if (!donationService.removeById(id)) {
             baseResp.setDeleteFailMsg();
         }
         return setResult(baseResp);

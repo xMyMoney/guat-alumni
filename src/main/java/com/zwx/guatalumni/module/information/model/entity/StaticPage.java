@@ -5,45 +5,50 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 新闻分类表
+ * 静态页面
  * </p>
  *
  * @author zwx
- * @since 2022-03-07
+ * @since 2022-03-27
  */
+
 @Data
-public class NewsCategory implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class StaticPage implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 分类id
+     * id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 分类名称
-     */
-    private String name;
-
-    /**
-     * 发布时间
+     * 创建时间
      */
     private Date createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private Date updateTime;
 
     /**
      * 是否已删除
      */
-    private String isDelete;
+    private Integer isDelete;
+
+    /**
+     * 内容
+     */
+    private String content;
+
 }

@@ -4,6 +4,8 @@ import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
+import com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo;
+import com.zwx.guatalumni.module.alumni.model.vo.AlumniBaseInfo;
 import com.zwx.guatalumni.module.alumni.model.vo.AlumniListVo;
 
 /**
@@ -17,4 +19,8 @@ import com.zwx.guatalumni.module.alumni.model.vo.AlumniListVo;
 public interface AlumniService extends IService<Alumni> {
 
     PageVo<AlumniListVo> findList(AlumniParam alumniParam);
+
+    AlumniBaseInfo getBaseInfoById(String id);
+
+    AlumniAuthInfo getAuthInfoById(String id);
 }

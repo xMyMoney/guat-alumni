@@ -6,7 +6,7 @@
         select count(a.id)
         from alumni a left join major ma on(a.major_id = ma.id)
                       left join academy ac on(a.academy_id = ac.id)
-        where is_delete = 0
+        where a.is_delete = 0
         <if test="username != '' and username != null">
             and username like concat('%',#{username},'%')
         </if>
@@ -28,7 +28,7 @@
                ac.name as academy, ma.name as major,a.end_year,a.star, a.`status`
         from alumni a left join major ma on(a.major_id = ma.id)
                       left join academy ac on(a.academy_id = ac.id)
-        where is_delete = 0
+        where a.is_delete = 0
         <if test="username != '' and username != null">
             and username like concat('%',#{username},'%')
         </if>
@@ -45,5 +45,11 @@
             and status = #{status}
         </if>
         limit #{current},#{pageSize}
+    </select>
+    <select id="getAuthInfo" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo">
+        select a.id,a.stu_id,a.begin_year,a.end_year,a.education,ac.name as academy,ma.name as major,a.`status`,a.auth_time
+        from alumni a left join academy ac on(a.academy_id = ac.id)
+                      left join major ma on(ac.id = ma.academy_id)
+        where a.is_delete = 0 and a.id = #{id}
     </select>
 </mapper>

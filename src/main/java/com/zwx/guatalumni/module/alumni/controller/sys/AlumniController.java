@@ -5,6 +5,9 @@ import com.zwx.guatalumni.common.base.BaseResp;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
+import com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo;
+import com.zwx.guatalumni.module.alumni.model.vo.AlumniBaseInfo;
+import com.zwx.guatalumni.module.alumni.model.convert.AlumniConvert;
 import com.zwx.guatalumni.module.alumni.service.AlumniService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class AlumniController extends BaseController {
     @Autowired
     private AlumniService alumniService;
 
+    @Autowired
+    AlumniConvert alumniConvert;
+
     @GetMapping("/list")
     public ResponseResult getList(AlumniParam alumniParam) {
         BaseResp baseResp = new BaseResp();
@@ -36,6 +42,38 @@ public class AlumniController extends BaseController {
     public ResponseResult getOne(@PathVariable String id) {
         BaseResp baseResp = new BaseResp();
         baseResp.setData(alumniService.getById(id));
+        return setResult(baseResp);
+    }
+
+    @GetMapping("/one/base/{id}")
+    public ResponseResult getBaseInfo(@PathVariable String id) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(alumniService.getBaseInfoById(id));
+        return setResult(baseResp);
+    }
+
+    @PutMapping("/one/base")
+    public ResponseResult updateBaseInfo(@RequestBody AlumniBaseInfo baseInfo) {
+        BaseResp baseResp = new BaseResp();
+        if (!alumniService.updateById(alumniConvert.toAlumni(baseInfo))) {
+            baseResp.setUpdateFailMsg();
+        }
+        return setResult(baseResp);
+    }
+
+    @GetMapping("/one/auth/{id}")
+    public ResponseResult getAuthInfo(@PathVariable String id) {
+        BaseResp baseResp = new BaseResp();
+        baseResp.setData(alumniService.getAuthInfoById(id));
+        return setResult(baseResp);
+    }
+
+    @PutMapping("/one/auth")
+    public ResponseResult updateAuthInfo(@RequestBody AlumniAuthInfo authInfo) {
+        BaseResp baseResp = new BaseResp();
+        if (!alumniService.updateById(alumniConvert.toAlumni(authInfo))) {
+            baseResp.setUpdateFailMsg();
+        }
         return setResult(baseResp);
     }
 

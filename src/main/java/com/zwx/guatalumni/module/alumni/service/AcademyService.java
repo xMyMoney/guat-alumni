@@ -1,9 +1,12 @@
 package com.zwx.guatalumni.module.alumni.service;
 
+import com.zwx.guatalumni.common.model.vo.OptionsVo;
 import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.alumni.model.entity.Academy;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwx.guatalumni.module.alumni.model.param.AcademyParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +19,6 @@ import com.zwx.guatalumni.module.alumni.model.param.AcademyParam;
 public interface AcademyService extends IService<Academy> {
 
     PageVo<Academy> findList(AcademyParam academyParam);
+
+    List<OptionsVo> getOptions();
 }

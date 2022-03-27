@@ -3,6 +3,9 @@ package com.zwx.guatalumni.module.alumni.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +16,8 @@ import java.io.Serializable;
  * @author zwx
  * @since 2022-03-20
  */
+@Data
+@AllArgsConstructor
 public class Alumni implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -69,16 +74,6 @@ public class Alumni implements Serializable {
     private String phone;
 
     /**
-     * 省份
-     */
-    private String province;
-
-    /**
-     * 城市
-     */
-    private String city;
-
-    /**
      * 详细地址
      */
     private String address;
@@ -96,7 +91,7 @@ public class Alumni implements Serializable {
     /**
      * 学号
      */
-    private Integer stuId;
+    private String stuId;
 
     /**
      * 学历id
@@ -116,7 +111,7 @@ public class Alumni implements Serializable {
     /**
      * 班级id
      */
-    private Integer groupId;
+    private Integer classesId;
 
     /**
      * 星级
@@ -127,4 +122,9 @@ public class Alumni implements Serializable {
      * 认证状态
      */
     private Integer status;
+
+    /**
+     * 认证时间
+     */
+    private Date authTime;
 }

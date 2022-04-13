@@ -1,10 +1,14 @@
 package com.zwx.guatalumni.module.alumni.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -18,6 +22,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Alumni implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -31,11 +36,13 @@ public class Alumni implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
     /**
@@ -127,4 +134,8 @@ public class Alumni implements Serializable {
      * 认证时间
      */
     private Date authTime;
+
+    private String company;
+
+    private String jor;
 }

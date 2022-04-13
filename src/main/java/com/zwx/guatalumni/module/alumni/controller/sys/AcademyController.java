@@ -38,6 +38,11 @@ public class AcademyController extends BaseController {
         return setResult(baseResp);
     }
 
+    @GetMapping("/options/tree")
+    public ResponseResult getTree() {
+        return setResult(academyService.getTree());
+    }
+
     @GetMapping("/one/{id}")
     public ResponseResult getOne(@PathVariable String id) {
         BaseResp baseResp = new BaseResp();

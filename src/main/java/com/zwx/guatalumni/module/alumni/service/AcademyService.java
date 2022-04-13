@@ -1,5 +1,8 @@
 package com.zwx.guatalumni.module.alumni.service;
 
+import cn.hutool.core.lang.tree.Tree;
+import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.model.vo.OptionsTreeVo;
 import com.zwx.guatalumni.common.model.vo.OptionsVo;
 import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.alumni.model.entity.Academy;
@@ -21,4 +24,6 @@ public interface AcademyService extends IService<Academy> {
     PageVo<Academy> findList(AcademyParam academyParam);
 
     List<OptionsVo> getOptions();
+
+    List<OptionsTreeVo> getTree();
 }

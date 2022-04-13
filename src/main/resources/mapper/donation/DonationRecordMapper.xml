@@ -34,7 +34,7 @@
             and d.title like concat('%',#{title},'%')
         </if>
         <if test="category != '' and category != null">
-            and d.category = category
+            and d.category = #{category}
         </if>
         limit #{current},#{pageSize}
     </select>

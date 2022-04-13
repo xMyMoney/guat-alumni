@@ -6,12 +6,54 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author x
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlumniAuthInfo {
-
+public class AlumniInfoVo {
     private Integer id;
+
+    /**--*+
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 姓名
+     */
+    private String username;
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+    /**
+     * 民族
+     */
+    private String nation;
+
+    /**
+     * 出生日期
+     */
+    private String birthday;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 地址
+     */
+    private String address;
+
+    /**
+     * 星级
+     */
+    private Integer star;
 
     /**
      * 入学年份

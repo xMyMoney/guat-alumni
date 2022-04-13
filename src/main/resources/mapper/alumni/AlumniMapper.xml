@@ -41,7 +41,7 @@
         <if test="star != '' and star != null">
             and star = #{star}
         </if>
-        <if test="status != '' and status != null">
+        <if test="status != null">
             and status = #{status}
         </if>
         limit #{current},#{pageSize}
@@ -52,4 +52,64 @@
                       left join major ma on(ac.id = ma.academy_id)
         where a.is_delete = 0 and a.id = #{id}
     </select>
+    <select id="statisticsById" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniStatisticsVo">
+        select count(dr.id) as donationCount,count(ar.id) as activityCount
+        from alumni a
+                 left join donation_record dr on(a.id = dr.alumni_id)
+                 left join activity_record ar on(a.id = ar.alumni_id)
+        where a.id = #{id}
+    </select>
+    <select id="getCardList" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniFriendVo">
+        select
+            a.id,
+            a.avatar,
+            a.username,
+            m.`name` as major,
+            a.address,
+            a.company,
+            a.jor,
+            a.begin_year,
+            a.end_year,
+            a.education,
+            a.gender,
+            a.login_time,
+            a.phone
+        from
+            alumni a left join major m on(a.major_id = m.id)
+        where a.is_delete = 0 and a.id != #{alumniId}
+        <if test="searchKey != '' and searchKey != null">
+            and a.username like concat('%',#{searchKey},'%')
+        </if>
+        <choose>
+            <when test="searchType == 1">
+                and a.begin_year = (select begin_year from alumni where id = #{alumniId})
+            </when>
+            <when test="searchType == 2">
+                and a.academy_id = (select academy_id from alumni where id = #{alumniId})
+            </when>
+            <when test="searchType == 3">
+                and a.major_id = (select major_id from alumni where id = #{alumniId})
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+        order by
+        <choose>
+            <when test="sortType == 0">
+                a.login_time
+            </when>
+            <when test="sortType == 1">
+                a.star
+            </when>
+            <when test="sortType == 2">
+                a.begin_year
+            </when>
+            <otherwise>
+                a.login_time
+            </otherwise>
+        </choose>
+        desc limit #{current},#{pageSize}
+    </select>
+    <select id="getAlumniInfo" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniInfoVo"></select>
 </mapper>

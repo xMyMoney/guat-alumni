@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwx.guatalumni.module.alumni.dao.AlumniFriendMapper">
+
+    <select id="getListById" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniFriendVo">
+        select
+            a.id,
+            a.avatar,
+            a.username,
+            m.`name` as major,
+            a.address,
+            a.company,
+            a.jor,
+            a.begin_year,
+            a.end_year,
+            a.education,
+            a.gender,
+            a.login_time,
+            a.phone
+        from
+            alumni a left join major m on(a.major_id = m.id)
+        where a.id in <foreach collection="friendIds" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+</mapper>

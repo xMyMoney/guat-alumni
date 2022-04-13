@@ -80,6 +80,15 @@ public class BaseController {
         return result;
     }
 
+    public <T> ResponseResult setResult(T data) {
+        ResponseResult result = new ResponseResult();
+        result.setCode(ResultType.SUCCESS.getValue());
+        result.setMsg(ResultType.SUCCESS.getDesc());
+        result.setData(data);
+        return result;
+    }
+
+
 
 
 

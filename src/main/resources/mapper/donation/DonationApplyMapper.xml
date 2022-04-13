@@ -2,4 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwx.guatalumni.module.donation.dao.DonationApplyMapper">
 
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(da.id)
+        from donation_apply da
+        join alumni a on(da.alumni_id = a.id)
+        join donation d on(da.donation_id = d.id)
+        where da.is_delete = 0 and a.is_delete and d.is_delete = 0
+        <if test="username != '' and username != null">
+            and a.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and d.title like concat('%',#{title},'%')
+        </if>
+        <if test="createTime != '' and createTime != null">
+            and da.createTime = #{createTime}
+        </if>
+
+    </select>
+    <select id="getList" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationApplyVo">
+        select da.id,a.username,d.title,da.create_time,da.reason,da.phone,da.state
+        from donation_apply da
+            join alumni a on(da.alumni_id = a.id)
+            join donation d on(da.donation_id = d.id)
+        where da.is_delete = 0 and a.is_delete = 0 and d.is_delete = 0
+        <if test="username != '' and username != null">
+            and a.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and d.title like concat('%',#{title},'%')
+        </if>
+        <if test="createTime != '' and createTime != null">
+            and da.createTime = #{createTime}
+        </if>
+        limit #{current},#{pageSize}
+    </select>
 </mapper>

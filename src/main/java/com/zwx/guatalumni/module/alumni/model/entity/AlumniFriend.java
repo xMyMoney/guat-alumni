@@ -1,7 +1,10 @@
 package com.zwx.guatalumni.module.alumni.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,16 +14,16 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 专业表
+ * 校友关系
  * </p>
  *
  * @author zwx
- * @since 2022-03-20
+ * @since 2022-04-04
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Major implements Serializable {
+public class AlumniFriend implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -33,11 +36,13 @@ public class Major implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
     /**
@@ -46,20 +51,17 @@ public class Major implements Serializable {
     private Integer isDelete;
 
     /**
-     * 专业名称
+     * 校友id
      */
-    private String name;
+    private Integer alumniId;
 
     /**
-     * 原专业名称
+     * 好友id
      */
-    private String oldName;
+    private Integer friendId;
 
-    /**
-     * 院系id
-     */
-    private Integer academyId;
-
-
-
+    public AlumniFriend(Integer alumniId, Integer applyId) {
+        this.alumniId = alumniId;
+        this.friendId = applyId;
+    }
 }

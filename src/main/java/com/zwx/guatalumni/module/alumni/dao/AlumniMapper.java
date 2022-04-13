@@ -2,9 +2,9 @@ package com.zwx.guatalumni.module.alumni.dao;
 
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zwx.guatalumni.module.alumni.model.param.AlumniCardParam;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
-import com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo;
-import com.zwx.guatalumni.module.alumni.model.vo.AlumniListVo;
+import com.zwx.guatalumni.module.alumni.model.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,4 +25,10 @@ public interface AlumniMapper extends BaseMapper<Alumni> {
     List<AlumniListVo> getList(AlumniParam alumniParam);
 
     AlumniAuthInfo getAuthInfo(String id);
+
+    AlumniStatisticsVo statisticsById(String id);
+
+    List<AlumniFriendVo> getCardList(AlumniCardParam alumniCardParam);
+
+    AlumniInfoVo getAlumniInfo(int id);
 }

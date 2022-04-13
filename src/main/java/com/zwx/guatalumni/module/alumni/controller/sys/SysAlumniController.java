@@ -2,15 +2,21 @@ package com.zwx.guatalumni.module.alumni.controller.sys;
 
 import com.zwx.guatalumni.common.base.BaseController;
 import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.constant.ResultType;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
+import com.zwx.guatalumni.module.alumni.model.param.AlumniInfoParam;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
 import com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo;
 import com.zwx.guatalumni.module.alumni.model.vo.AlumniBaseInfo;
 import com.zwx.guatalumni.module.alumni.model.convert.AlumniConvert;
 import com.zwx.guatalumni.module.alumni.service.AlumniService;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 
 /**
  * <p>
@@ -21,8 +27,8 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-03-07
  */
 @RestController
-@RequestMapping("/alumni")
-public class AlumniController extends BaseController {
+@RequestMapping("/sys/alumni")
+public class SysAlumniController extends BaseController {
 
     @Autowired
     private AlumniService alumniService;
@@ -33,7 +39,6 @@ public class AlumniController extends BaseController {
     @GetMapping("/list")
     public ResponseResult getList(AlumniParam alumniParam) {
         BaseResp baseResp = new BaseResp();
-        System.out.println(alumniParam.toString());
         baseResp.setData(alumniService.findList(alumniParam));
         return setResult(baseResp);
     }
@@ -43,6 +48,11 @@ public class AlumniController extends BaseController {
         BaseResp baseResp = new BaseResp();
         baseResp.setData(alumniService.getById(id));
         return setResult(baseResp);
+    }
+
+    @GetMapping("/one/statistics/{id}")
+    public ResponseResult getStatistics(@PathVariable String id) {
+        return setResult(alumniService.getStatistics(id));
     }
 
     @GetMapping("/one/base/{id}")
@@ -78,7 +88,7 @@ public class AlumniController extends BaseController {
     }
 
     @PostMapping("/one")
-    public ResponseResult addAlumni(@RequestBody Alumni alumni) {
+    public ResponseResult addAlumni(@RequestBody AlumniInfoParam alumni) {
         BaseResp baseResp = new BaseResp();
         if (!alumniService.save(alumni)) {
             baseResp.setSaveFailMsg();
@@ -102,6 +112,27 @@ public class AlumniController extends BaseController {
             baseResp.setDeleteFailMsg();
         }
         return setResult(baseResp);
+    }
+
+    @GetMapping("/export")
+    public ResponseResult<Void> export(HttpServletResponse response) {
+        Workbook workbook = alumniService.export();
+        try {
+            response.setHeader("content-Type","application/vnd-ms-excel");
+            response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode("校友信息.xlsx","UTF-8"));
+            workbook.write(response.getOutputStream());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return setResult(ResultType.SUCCESS);
     }
 }
 

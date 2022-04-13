@@ -1,7 +1,10 @@
 package com.zwx.guatalumni.module.alumni.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,16 +14,16 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 专业表
+ * 交换名片申请
  * </p>
  *
  * @author zwx
- * @since 2022-03-20
+ * @since 2022-04-04
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Major implements Serializable {
+@AllArgsConstructor
+@Data
+public class AlumniApply implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -33,12 +36,8 @@ public class Major implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     /**
      * 是否已删除
@@ -46,20 +45,29 @@ public class Major implements Serializable {
     private Integer isDelete;
 
     /**
-     * 专业名称
+     * 更新时间
      */
-    private String name;
+    @TableField(fill = FieldFill.UPDATE)
+    private Date updateTime;
 
     /**
-     * 原专业名称
+     * 申请人Id
      */
-    private String oldName;
+    private Integer applyId;
 
     /**
-     * 院系id
+     * 被申请人Id
      */
-    private Integer academyId;
+    private Integer alumniId;
 
+    /**
+     * 请求留言
+     */
+    private String message;
 
+    /**
+     * 申请状态
+     */
+    private Integer status;
 
 }

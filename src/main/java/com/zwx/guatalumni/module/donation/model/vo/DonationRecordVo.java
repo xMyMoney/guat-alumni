@@ -24,7 +24,7 @@ public class DonationRecordVo {
     /**
      * 类别ID
      */
-    private Integer category;
+    private String category;
 
     /**
      * 去处
@@ -37,5 +37,5 @@ public class DonationRecordVo {
 
     private Integer thing;
 
-    private String desc;
+//    private String desc;
 }

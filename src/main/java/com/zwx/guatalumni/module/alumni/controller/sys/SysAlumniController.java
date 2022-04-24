@@ -134,5 +134,10 @@ public class SysAlumniController extends BaseController {
         }
         return setResult(ResultType.SUCCESS);
     }
+
+    @GetMapping("/options")
+    public ResponseResult getOptions() {
+        return setResult(alumniService.getOptions());
+    }
 }
 

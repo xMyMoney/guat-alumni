@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniCardParam;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
 import com.zwx.guatalumni.module.alumni.model.vo.*;
+import com.zwx.guatalumni.module.user.model.vo.UserInfoVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,4 +33,8 @@ public interface AlumniMapper extends BaseMapper<Alumni> {
     List<AlumniFriendVo> getCardList(AlumniCardParam alumniCardParam);
 
     AlumniInfoVo getAlumniInfo(int id);
+
+    Alumni getInfoByStuId(@Param("stuId") String stuId);
+
+    UserInfoVo getLoginInfo(@Param("id")Integer id);
 }

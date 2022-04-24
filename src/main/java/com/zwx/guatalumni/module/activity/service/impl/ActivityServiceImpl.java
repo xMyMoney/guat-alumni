@@ -8,6 +8,8 @@ import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.activity.model.entity.Activity;
 import com.zwx.guatalumni.module.activity.dao.ActivityMapper;
 import com.zwx.guatalumni.module.activity.model.param.ActivityParam;
+import com.zwx.guatalumni.module.activity.model.param.SearchParam;
+import com.zwx.guatalumni.module.activity.model.vo.ActivityVo;
 import com.zwx.guatalumni.module.activity.service.ActivityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,11 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     private ActivityMapper activityMapper;
 
     @Override
-    public PageVo<Activity> findList(ActivityParam activityParam) {
-        IPage<Activity> page = new Page<>(activityParam.getCurrent(),activityParam.getPageSize());
-        QueryWrapper<Activity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda()
-                .eq(!StringUtils.isEmpty(activityParam.getTitle()),Activity::getTitle,activityParam.getTitle())
-                .eq(!StringUtils.isEmpty(activityParam.getContent()),Activity::getContent,activityParam.getContent())
-                .eq(null != activityParam.getCategoryId(),Activity::getCategoryId,activityParam.getCategoryId());
-        return new PageVo<>(activityMapper.selectPage(page,queryWrapper).getRecords(),this.count());
+    public PageVo<ActivityVo> findList(ActivityParam activityParam) {
+        activityParam.setCurrent((activityParam.getCurrent()-1)*activityParam.getPageSize());
+        List<ActivityVo> list = activityMapper.getList(activityParam);
+        int total = activityMapper.getTotal(activityParam);
+        return new PageVo<>(list,total);
     }
 
     @Override
@@ -54,4 +53,16 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
                 .eq(Activity::getCategoryId,id);
         return this.update(updateWrapper);
     }
+
+    @Override
+    public List<ActivityVo> getList(SearchParam searchParam) {
+        return activityMapper.getListCard(searchParam);
+    }
+
+    @Override
+    public ActivityVo getOneById(Integer activityId, Integer alumniId) {
+        return activityMapper.getOne(activityId,alumniId);
+    }
+
+
 }

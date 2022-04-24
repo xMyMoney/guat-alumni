@@ -4,7 +4,9 @@ import com.zwx.guatalumni.module.activity.model.entity.ActivityRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwx.guatalumni.module.activity.model.param.ActivityRecordParam;
 import com.zwx.guatalumni.module.activity.model.vo.ActivityRecordVo;
+import com.zwx.guatalumni.module.activity.model.vo.ActivityVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +24,6 @@ public interface ActivityRecordMapper extends BaseMapper<ActivityRecord> {
     int getTotal(ActivityRecordParam activityRecordParam);
 
     List<ActivityRecordVo> getList(ActivityRecordParam activityRecordParam);
+
+    List<ActivityVo> getJoined(@Param("id") String id);
 }

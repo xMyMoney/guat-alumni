@@ -1,10 +1,14 @@
 package com.zwx.guatalumni.module.donation.service;
 
 import com.zwx.guatalumni.common.model.vo.PageVo;
+import com.zwx.guatalumni.module.alumni.model.param.HandleApplyParam;
+import com.zwx.guatalumni.module.alumni.model.vo.AlumniApplyVo;
 import com.zwx.guatalumni.module.donation.model.entity.DonationApply;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwx.guatalumni.module.donation.model.param.DonationApplyParam;
 import com.zwx.guatalumni.module.donation.model.vo.DonationApplyVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,8 @@ import com.zwx.guatalumni.module.donation.model.vo.DonationApplyVo;
 public interface DonationApplyService extends IService<DonationApply> {
 
     PageVo<DonationApplyVo> findList(DonationApplyParam donationApplyParam);
+
+    void handle(HandleApplyParam handleApplyParam);
+
+    List<AlumniApplyVo> listByApplyId(String id);
 }

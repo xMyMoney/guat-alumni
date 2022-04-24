@@ -1,7 +1,10 @@
 package com.zwx.guatalumni.module.donation.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,11 +36,13 @@ public class DonationApply implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
     /**
@@ -49,6 +54,11 @@ public class DonationApply implements Serializable {
      * 项目Id
      */
     private Integer donationId;
+
+    /**
+     * 申请id
+     */
+    private Integer applyId;
 
     /**
      * 校友id
@@ -64,5 +74,10 @@ public class DonationApply implements Serializable {
      * 申请理由
      */
     private String reason;
+
+    /**
+     * 申请状态
+     */
+    private Integer status;
 
 }

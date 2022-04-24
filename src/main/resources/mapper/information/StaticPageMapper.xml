@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwx.guatalumni.module.information.dao.StaticPageMapper">
 
+    <select id="getPageByType" resultType="com.zwx.guatalumni.module.information.model.entity.StaticPage">
+        select * from static_page where page_type = #{page_type}
+    </select>
 </mapper>

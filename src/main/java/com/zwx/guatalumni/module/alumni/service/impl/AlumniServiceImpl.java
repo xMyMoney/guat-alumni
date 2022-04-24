@@ -3,9 +3,14 @@ package com.zwx.guatalumni.module.alumni.service.impl;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.hash.Hash;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zwx.guatalumni.common.constant.FileConstant;
+import com.zwx.guatalumni.common.model.vo.OptionsVo;
 import com.zwx.guatalumni.common.model.vo.PageVo;
+import com.zwx.guatalumni.module.aliyun.service.SmsService;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
 import com.zwx.guatalumni.module.alumni.dao.AlumniMapper;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniCardParam;
@@ -23,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -43,6 +49,9 @@ public class AlumniServiceImpl extends ServiceImpl<AlumniMapper, Alumni> impleme
 
     @Autowired
     private AlumniFriendService alumniFriendService;
+
+    @Autowired
+    private SmsService smsService;
 
     @Override
     public PageVo<AlumniListVo> findList(AlumniParam alumniParam) {
@@ -124,6 +133,31 @@ public class AlumniServiceImpl extends ServiceImpl<AlumniMapper, Alumni> impleme
     @Override
     public AlumniInfoVo login() {
         return  alumniMapper.getAlumniInfo(1);
+    }
+
+    @Override
+    public List<String> getPhoneNumbers(List<Integer> alumniIds) {
+        List<Alumni> alumniList = this.listByIds(alumniIds);
+        return alumniList.stream().map(Alumni::getPhone).collect(Collectors.toList());
+    }
+
+    @Override
+    public void sendBirthdaySms() {
+        List<Alumni> alumniList = this.list();
+        Date today = DateUtil.parse(DateUtil.today());
+        for (Alumni alumni : alumniList) {
+            if (alumni.getBirthday().compareTo(today) == 0) {
+                smsService.sendBirthdaySms(alumni.getId());
+            }
+        }
+    }
+
+    @Override
+    public List<OptionsVo> getOptions() {
+        List<Alumni> alumniList = this.list();
+        List<OptionsVo> optionsVos = new ArrayList<>();
+        alumniList.forEach(v->optionsVos.add(new OptionsVo(v.getId(),v.getUsername())));
+        return optionsVos;
     }
 
     private Alumni getOne(String id) {

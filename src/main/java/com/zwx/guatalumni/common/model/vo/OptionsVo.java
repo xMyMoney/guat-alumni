@@ -6,9 +6,11 @@ import lombok.Data;
 public class OptionsVo {
     private Integer value;
     private String label;
+    private String text;
 
-    public OptionsVo(Integer id, String name) {
-        this.value = id;
-        this.label = name;
+    public OptionsVo(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+        this.text = label;
     }
 }

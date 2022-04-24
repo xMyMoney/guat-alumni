@@ -11,16 +11,16 @@
         <if test="username != '' and username != null">
             and a.username like concat('%',#{username},'%')
         </if>
-        <if test="title != '' and title != null">
-            and d.title like concat('%',#{title},'%')
+        <if test="status != null">
+            and da.status = #{status}
         </if>
         <if test="createTime != '' and createTime != null">
-            and da.createTime = #{createTime}
+            and da.create_time = #{createTime}
         </if>
 
     </select>
     <select id="getList" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationApplyVo">
-        select da.id,a.username,d.title,da.create_time,da.reason,da.phone,da.state
+        select da.id,da.alumni_id,a.username,d.title,da.create_time,da.reason,da.phone,da.status
         from donation_apply da
             join alumni a on(da.alumni_id = a.id)
             join donation d on(da.donation_id = d.id)
@@ -28,11 +28,11 @@
         <if test="username != '' and username != null">
             and a.username like concat('%',#{username},'%')
         </if>
-        <if test="title != '' and title != null">
-            and d.title like concat('%',#{title},'%')
+        <if test="status != null">
+            and da.status = #{status}
         </if>
         <if test="createTime != '' and createTime != null">
-            and da.createTime = #{createTime}
+            and da.create_time = #{createTime}
         </if>
         limit #{current},#{pageSize}
     </select>

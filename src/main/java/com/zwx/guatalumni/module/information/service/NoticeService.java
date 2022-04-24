@@ -1,5 +1,6 @@
 package com.zwx.guatalumni.module.information.service;
 
+import com.zwx.guatalumni.common.base.BaseResp;
 import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.information.model.entity.Notice;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -22,4 +23,6 @@ public interface NoticeService extends IService<Notice> {
     void deleteBatch(List<Integer> ids);
 
     PageVo<Notice> findList(NoticeParam noticeParam);
+
+    Notice getHotById();
 }

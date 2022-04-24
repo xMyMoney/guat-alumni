@@ -27,6 +27,7 @@ public class AlumniFriendVo {
     private Date loginTime;
     private String phone;
     private Boolean isFriend;
+    private Integer star;
 
     public AlumniFriendVo() {
         this.isFriend = false;

@@ -12,5 +12,6 @@ public class DonationParam extends BasePageParam {
 
     private String title;
     private String content;
+    private Integer status;
 
 }

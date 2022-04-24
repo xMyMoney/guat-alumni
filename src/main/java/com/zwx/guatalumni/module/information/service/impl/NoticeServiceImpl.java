@@ -40,6 +40,18 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
+    public Notice getHotById() {
+        QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(Notice::getFocus,true);
+        Notice notice = this.getOne(queryWrapper);
+        if (notice == null) {
+            notice = noticeMapper.getHotNotice();
+        }
+        return notice;
+    }
+
+    @Override
     public void deleteBatch(List<Integer> ids) {
         noticeMapper.deleteBatchIds(ids);
     }

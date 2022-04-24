@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-03-07
  */
 @RestController
-@RequestMapping("/major")
+@RequestMapping("/sys/major")
 public class MajorController extends BaseController {
 
     @Autowired

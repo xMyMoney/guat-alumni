@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class AlumniApplyVo {
     private Integer id;
     private Integer applyId;
-    private String username;
-    private String avatar;
-    private Integer gender;
-    private String message;
+    private String applyType;
+    private String applyTime;
+    private Integer applyStatus;
+    private String reply;
 }

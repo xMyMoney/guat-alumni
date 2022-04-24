@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zwx.guatalumni.module.alumni.dao.AlumniApplyMapper">
-
-    <select id="getByApplyId" resultType="com.zwx.guatalumni.module.alumni.model.entity.AlumniApply">
-        select * from alumni_apply where apply_id = #{applyId} and alumni_id = #{alumniId}
-    </select>
-</mapper>

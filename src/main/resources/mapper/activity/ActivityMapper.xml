@@ -2,4 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwx.guatalumni.module.activity.dao.ActivityMapper">
 
+    <select id="getList" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityVo">
+        select a.id, a.title, a.cover, a.content, ac.`name` as category,
+        date_format(a.begin_time,'%Y-%m-%d %H:%i:%s') as begin_time, date_format(a.end_time,'%Y-%m-%d %H:%i:%s') as end_time,
+        a.place, a.scope, a.quota, count(ar.id) as join_count, a.editor,a.status
+        from activity a left join activity_category ac on(a.category_id = ac.id)
+                        left join activity_record ar on(a.id = ar.activity_id)
+        where a.is_delete = 0
+        <if test="title != '' and title != null">
+            and a.title like concat('%',#{title},'%')
+        </if>
+        <if test="categoryId != '' and categoryId != null">
+            and ac.id = #{categoryId}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        having join_count > 0
+        limit #{current},#{pageSize}
+    </select>
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(a.id)
+        from activity a left join activity_category ac on(a.category_id = ac.id)
+        left join activity_record ar on(a.id = ar.activity_id)
+        where a.is_delete = 0
+        <if test="title != '' and title != null">
+            and a.title like concat('%',#{title},'%')
+        </if>
+        <if test="categoryId != '' and categoryId != null">
+            and ac.id = #{categoryId}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+    </select>
+    <select id="getListCard" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityVo">
+        select a.id, a.create_time, a.update_time, a.is_delete, a.title, a.cover, a.content, a.category_id,
+        a.begin_time, a.end_time, a.place, a.scope, a.quota, count(ar.alumni_id) as join_count, a.editor, a.`status`
+        from activity a left join activity_record ar on(a.id = ar.activity_id)
+        where a.is_delete = 0
+        <if test="searchKey != '' and searchKey != null">
+            and title like concat('%',#{searchKey},'%')
+        </if>
+        group by a.id
+        <choose>
+            <when test="searchType == 1">
+                order by join_count desc
+            </when>
+            <when test="searchType == 2">
+                order by a.begin_time desc
+            </when>
+        </choose>
+
+    </select>
+    <select id="getOne" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityVo">
+        select a.id, a.create_time, a.update_time, a.is_delete, a.title, a.cover, a.content, a.category_id,
+        a.begin_time, a.end_time, a.place, a.scope, a.quota, count(ar.alumni_id) as join_count, a.editor, a.`status`,
+        if(ar.alumni_id = #{alumniId},true,false) as is_join
+        from activity a left join activity_record ar on(a.id = ar.activity_id)
+        where a.is_delete = 0 and a.id = #{activityId}
+    </select>
 </mapper>

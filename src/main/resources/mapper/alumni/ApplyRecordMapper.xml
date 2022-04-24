@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwx.guatalumni.module.alumni.dao.ApplyRecordMapper">
+
+    <select id="getList" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniApplyVo">
+        select ar.apply_id,date_format(ar.apply_time,'%Y-%m-%d') as apply_time,
+               ar.apply_status,be.enum_value as apply_type,ar.reply
+        from apply_record ar left join base_enum be
+            on(ar.apply_type = be.enum_key and be.enum_group = 1)
+        where ar.apply_id = #{id}
+    </select>
+</mapper>

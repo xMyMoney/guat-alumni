@@ -138,4 +138,6 @@ public class Alumni implements Serializable {
     private String company;
 
     private String jor;
+
+    private String password;
 }

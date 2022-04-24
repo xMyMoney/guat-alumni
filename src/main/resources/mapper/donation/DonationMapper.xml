@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwx.guatalumni.module.donation.dao.DonationMapper">
+    <select id="getStatisticsById"
+            resultType="com.zwx.guatalumni.module.donation.model.vo.DonationStatisticsVo">
+        select d.target,ifnull(sum(dr.money),0) as total, count(dr.id) as count
+        from donation d left join donation_record dr on(d.id = dr.donation_id)
+        where d.id = #{id}
+    </select>
+    <select id="getListCard" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationItemVo">
+        select d.id, d.title, d.cover, d.content,count(dr.alumni_id) as donated_count, d.`status`
+        from donation d left join donation_record dr on(d.id = dr.donation_id)
+        where d.is_delete = 0
+        <if test="searchKey != '' and searchKey != null">
+            and title like concat('%',#{searchKey},'%')
+        </if>
+        group by d.id
+        <choose>
+            <when test="searchType == 1">
+                order by donated_count desc
+            </when>
+            <when test="searchType == 2">
+                order by d.begin_time desc
+            </when>
+        </choose>
+    </select>
 </mapper>

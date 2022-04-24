@@ -15,4 +15,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface StaticPageService extends IService<StaticPage> {
 
+    StaticPage getPageInfo(String pageType);
 }

@@ -19,6 +19,9 @@ public class DonationApplyParam extends BasePageParam {
     /**
      * 申请时间
      */
-    private Date createTime;
-    private String title;
+    private String createTime;
+    /**
+     *
+     */
+    private Integer status;
 }

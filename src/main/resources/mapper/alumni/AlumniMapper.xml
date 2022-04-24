@@ -73,7 +73,8 @@
             a.education,
             a.gender,
             a.login_time,
-            a.phone
+            a.phone,
+            a.star
         from
             alumni a left join major m on(a.major_id = m.id)
         where a.is_delete = 0 and a.id != #{alumniId}
@@ -112,4 +113,15 @@
         desc limit #{current},#{pageSize}
     </select>
     <select id="getAlumniInfo" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniInfoVo"></select>
+    <select id="getInfoByStuId" resultType="com.zwx.guatalumni.module.alumni.model.entity.Alumni">
+        select * from alumni where stu_id = #{stuId}
+    </select>
+    <select id="getLoginInfo" resultType="com.zwx.guatalumni.module.user.model.vo.UserInfoVo">
+        select a.id,a.avatar,a.username, a.gender, a.birthday, a.phone, a.address, a.company, a.jor, a.star, a.`password`,
+               a.stu_id, a.begin_year, a.education, ac.`name` AS academy, ma.`name` AS major, a.`status`
+        from alumni a left join academy ac on(a.academy_id = ac.id)
+                      left join major ma on(ac.id = ma.academy_id)
+        where a.is_delete = 0 and a.id = #{id}
+
+    </select>
 </mapper>

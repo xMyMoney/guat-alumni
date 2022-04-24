@@ -21,6 +21,11 @@ public class DonationApplyVo {
     private Date createTime;
 
     /**
+     * 申请人id
+     */
+    private Integer alumniId;
+
+    /**
      * 申请人
      */
     private String username;
@@ -44,5 +49,5 @@ public class DonationApplyVo {
     /**
      * 申请状态
      */
-    private Integer state;
+    private Integer status;
 }

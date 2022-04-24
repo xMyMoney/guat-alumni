@@ -9,6 +9,7 @@ import com.zwx.guatalumni.module.activity.model.entity.ActivityRecord;
 import com.zwx.guatalumni.module.activity.dao.ActivityRecordMapper;
 import com.zwx.guatalumni.module.activity.model.param.ActivityRecordParam;
 import com.zwx.guatalumni.module.activity.model.vo.ActivityRecordVo;
+import com.zwx.guatalumni.module.activity.model.vo.ActivityVo;
 import com.zwx.guatalumni.module.activity.service.ActivityRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,11 @@ public class ActivityRecordServiceImpl extends ServiceImpl<ActivityRecordMapper,
         list.add(new ActivityRecordVo(1,"校友1","活动",1,new Date()));
         list.add(new ActivityRecordVo(2,"校友2","活动2",0,new Date()));
         return new PageVo<>(list,total);
+    }
+
+    @Override
+    public List<ActivityVo> getJoinedList(String id) {
+
+        return activityRecordMapper.getJoined(id);
     }
 }

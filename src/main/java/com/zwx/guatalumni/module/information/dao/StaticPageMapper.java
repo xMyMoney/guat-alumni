@@ -3,6 +3,7 @@ package com.zwx.guatalumni.module.information.dao;
 import com.zwx.guatalumni.module.information.model.entity.StaticPage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StaticPageMapper extends BaseMapper<StaticPage> {
 
+    StaticPage getPageByType(@Param("page_type") String pageType);
 }

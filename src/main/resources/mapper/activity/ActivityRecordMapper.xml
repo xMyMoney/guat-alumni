@@ -7,4 +7,10 @@
     <select id="getList" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityRecordVo">
 
     </select>
+    <select id="getJoined" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityVo">
+        select a.id, a.create_time, a.update_time, a.is_delete, a.title, a.cover, a.content, a.category_id,
+               a.begin_time, a.end_time, a.place, a.scope, a.quota, count(ar.alumni_id) as join_count, a.editor, a.`status`
+        from activity a left join activity_record ar on(a.id = ar.activity_id)
+        where a.is_delete = 0 and ar.alumni_id = #{id} having join_count > 0
+    </select>
 </mapper>

@@ -23,6 +23,11 @@ public class PageVo<T> implements BaseEntity {
      */
     private int total;
 
+    public PageVo(List<T> list, long total) {
+        this.list = list;
+        this.total = Integer.parseInt(String.valueOf(total));
+    }
+
     public PageVo(List<T> list, int total) {
         this.list = list;
         this.total = total;

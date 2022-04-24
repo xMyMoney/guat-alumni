@@ -1,7 +1,10 @@
 package com.zwx.guatalumni.module.information.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,11 +37,13 @@ public class StaticPage implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
     /**
@@ -50,5 +55,10 @@ public class StaticPage implements Serializable {
      * 内容
      */
     private String content;
+
+    /**
+     * 页面类型
+     */
+    private Integer pageType;
 
 }

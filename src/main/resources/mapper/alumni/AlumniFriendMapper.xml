@@ -16,7 +16,8 @@
             a.education,
             a.gender,
             a.login_time,
-            a.phone
+            a.phone,
+            a.star
         from
             alumni a left join major m on(a.major_id = m.id)
         where a.id in <foreach collection="friendIds" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>

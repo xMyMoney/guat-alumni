@@ -4,6 +4,7 @@ import com.zwx.guatalumni.module.information.model.entity.StaticPage;
 import com.zwx.guatalumni.module.information.dao.StaticPageMapper;
 import com.zwx.guatalumni.module.information.service.StaticPageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StaticPageServiceImpl extends ServiceImpl<StaticPageMapper, StaticPage> implements StaticPageService {
 
+    @Autowired
+    private StaticPageMapper staticPageMapper;
+
+    @Override
+    public StaticPage getPageInfo(String pageType) {
+        return staticPageMapper.getPageByType(pageType);
+    }
 }

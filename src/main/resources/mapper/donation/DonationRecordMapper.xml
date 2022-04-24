@@ -21,11 +21,10 @@
 
     </select>
     <select id="getList" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationRecordVo">
-        select dr.id,a.username,dr.create_time, d.title,d.category,dr.money,dr.thing,dr.desc,af.`name` as foundation
-        from donation_record dr
-            join alumni a on(dr.alumni_id = a.id)
-            join donation d on(dr.donation_id = d.id)
-            join alumni_foundation af on(d.foundation_id = af.id)
+        select dr.id,a.username,dr.create_time, d.title,be.enum_value as category,dr.money,dr.thing
+        from donation_record dr left join alumni a on(dr.alumni_id = a.id)
+        left join donation d on(dr.donation_id = d.id)
+        left join base_enum be on(d.category = be.enum_key and be.enum_group = 2)
         where dr.is_delete = 0
         <if test="username != '' and username != null">
             and a.username like concat('%',#{username},'%')
@@ -33,9 +32,27 @@
         <if test="title != '' and title != null">
             and d.title like concat('%',#{title},'%')
         </if>
-        <if test="category != '' and category != null">
+        <if test="category != null">
             and d.category = #{category}
         </if>
         limit #{current},#{pageSize}
     </select>
+    <select id="getRankById" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationRankVo">
+        select a.avatar,a.username as alumni,sum(d.money) as 'count'
+        from donation_record d left join alumni a on(d.alumni_id = a.id)
+        where d.donation_id = (select id from donation where id = #{id})
+        group by d.alumni_id order by count desc limit 0,10
+    </select>
+    <select id="getRankLatestById" resultType="com.zwx.guatalumni.module.donation.model.vo.DonationRankVo">
+        select a.avatar,a.username as alumni,d.money as 'count',date_format(d.create_time,'%Y-%m-%d %H:%i:%s') as time
+        from donation_record d left join alumni a on(d.alumni_id = a.id)
+        where d.donation_id = (select id from donation where id = #{id})
+        order by d.create_time desc limit 0,10
+    </select>
+    <select id="getDonations" resultType="com.zwx.guatalumni.module.donation.model.vo.DonatedVo">
+        select dr.donation_id,d.title,d.`status`,sum(dr.money) as total
+        from donation_record dr left join donation d on(dr.donation_id = d.id)
+        where dr.is_delete = 0 and dr.alumni_id = #{id} group by dr.donation_id
+    </select>
+
 </mapper>

@@ -3,12 +3,18 @@ package com.zwx.guatalumni.module.activity.controller.sys;
 
 import com.zwx.guatalumni.common.base.BaseController;
 import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.constant.FileConstant;
+import com.zwx.guatalumni.common.constant.ResultType;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
 import com.zwx.guatalumni.module.activity.model.entity.ActivityRecord;
 import com.zwx.guatalumni.module.activity.model.param.ActivityRecordParam;
 import com.zwx.guatalumni.module.activity.service.ActivityRecordService;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 
 /**
  * <p>
@@ -19,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-03-07
  */
 @RestController
-@RequestMapping("/sys/activityRecord")
+@RequestMapping("/sys/activity-record")
 public class SysActivityRecordController extends BaseController {
 
     @Autowired
@@ -66,14 +72,42 @@ public class SysActivityRecordController extends BaseController {
         return setResult(baseResp);
     }
 
-//    @DeleteMapping("/list")
-//    public ResponseResult deleteBatch(List<Integer> ids) {
-//        BaseResp baseResp = new BaseResp();
-//        if (!activityRecordService.deleteBatch(ids)) {
-//            baseResp.setDeleteFailMsg();
-//        }
-//        return setResult(baseResp);
-//    }
+    @GetMapping("/export/{id}")
+    public ResponseResult export(HttpServletResponse response, @PathVariable String id) {
+        Workbook workbook = activityRecordService.export(id);
+        try {
+            response.setHeader("content-Type","application/octet-stream");
+            response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(FileConstant.ACTIVITY_INFO_NAME,"UTF-8"));
+            workbook.write(response.getOutputStream());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
+        return setResult(ResultType.SUCCESS);
+    }
+
+    @GetMapping("/rank/{id}")
+    public ResponseResult getRank(@PathVariable String id) {
+        return setResult(activityRecordService.getRankById(id));
+    }
+
+    @GetMapping("/remind/{id}")
+    public ResponseResult remind(@PathVariable String id) {
+        activityRecordService.remind(id);
+        return setResult(ResultType.SUCCESS);
+    }
+
+    @GetMapping("/statistics/{id}")
+    public ResponseResult statistics(@PathVariable String id) {
+        return setResult(activityRecordService.getStatistics(id));
+    }
 }
 

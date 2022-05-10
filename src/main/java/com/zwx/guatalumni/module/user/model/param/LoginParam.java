@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginParam {
 
+    private String username;
     private String stuId;
     private String password;
 }

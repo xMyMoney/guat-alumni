@@ -100,7 +100,8 @@ public class SmsServiceImpl implements SmsService {
         return client;
     }
 
-    private void sendSms(SmsParam smsParam) {
+    @Override
+    public void sendSms(SmsParam smsParam) {
         // 获取短信模板
         SmsTemplate smsTemplate = smsTemplateService.getByBussType(smsParam.getBussType());
         // 获取短信配置

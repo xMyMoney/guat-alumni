@@ -1,8 +1,8 @@
 package com.zwx.guatalumni.services;
 
 import com.zwx.guatalumni.common.model.vo.OptionsTreeVo;
-import com.zwx.guatalumni.module.alumni.service.AcademyService;
 import com.zwx.guatalumni.module.alumni.service.AlumniService;
+import com.zwx.guatalumni.module.hlht.service.HlhtAcademyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class AlumniCenterTest {
 
     @Autowired
-    AcademyService academyService;
+    private HlhtAcademyService academyService;
 
     @Autowired
     AlumniService alumniService;
@@ -26,5 +26,10 @@ public class AlumniCenterTest {
     @Test
     public void export() {
         alumniService.export();
+    }
+
+    @Test
+    public void sendBless() {
+        alumniService.sendBirthdaySms();
     }
 }

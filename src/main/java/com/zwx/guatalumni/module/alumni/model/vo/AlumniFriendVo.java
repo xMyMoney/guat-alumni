@@ -21,7 +21,7 @@ public class AlumniFriendVo {
     private String address;
     private String beginYear;
     private String endYear;
-    private String education;
+    private Integer education;
     private String company;
     private String jor;
     private Date loginTime;

@@ -76,18 +76,22 @@ public class DonationServiceImpl extends ServiceImpl<DonationMapper, Donation> i
     @Override
     public void checkStatus() {
         List<Donation> list = this.list();
-        Date today = DateUtil.parse(DateUtil.today());
         for (Donation donation : list) {
-            Date beginTime = donation.getBeginTime();
-            Date endTime = donation.getEndTime();
-            if (today.compareTo(beginTime) >= 0 && today.compareTo(endTime) <= 0) {
-                donation.setStatus(StatusConstant.ING);
-                this.updateById(donation);
-            }else if (today.compareTo(endTime) > 0) {
-                donation.setStatus(StatusConstant.END);
-                this.updateById(donation);
-            }
+            donation.setStatus(getStatus(donation));
+            this.updateById(donation);
         }
+    }
+
+    private Integer getStatus(Donation donation) {
+        Date today = DateUtil.parse(DateUtil.today());
+        Date beginTime = donation.getBeginTime();
+        Date endTime = donation.getEndTime();
+        if (today.compareTo(beginTime) >= 0 && today.compareTo(endTime) <= 0) {
+            return StatusConstant.ING;
+        }else if (today.compareTo(endTime) > 0) {
+            return StatusConstant.END;
+        }
+        return StatusConstant.NOT_START;
     }
 
     @Override
@@ -118,5 +122,12 @@ public class DonationServiceImpl extends ServiceImpl<DonationMapper, Donation> i
     @Override
     public List<DonationItemVo> getList(SearchParam searchParam) {
         return donationMapper.getListCard(searchParam);
+    }
+
+    @Override
+    public boolean saveDonation(Donation donation) {
+        Integer status = getStatus(donation);
+        donation.setStatus(status);
+        return this.save(donation);
     }
 }

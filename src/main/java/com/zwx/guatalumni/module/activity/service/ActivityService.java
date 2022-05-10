@@ -1,6 +1,7 @@
 package com.zwx.guatalumni.module.activity.service;
 
 import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.model.vo.OptionsVo;
 import com.zwx.guatalumni.common.model.vo.PageVo;
 import com.zwx.guatalumni.module.activity.model.entity.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -30,4 +31,10 @@ public interface ActivityService extends IService<Activity> {
 
 
     ActivityVo getOneById(Integer activityId, Integer alumniId);
+
+    void checkStatus();
+
+    List<OptionsVo> getOptions();
+
+    boolean saveActivity(Activity activity);
 }

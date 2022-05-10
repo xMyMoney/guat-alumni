@@ -36,4 +36,6 @@ public interface DonationService extends IService<Donation> {
     DonationDetailVo getOne(String id);
 
     List<DonationItemVo> getList(SearchParam searchParam);
+
+    boolean saveDonation(Donation donation);
 }

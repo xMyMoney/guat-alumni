@@ -4,8 +4,8 @@
 
     <select id="getTotal" resultType="java.lang.Integer">
         select count(a.id)
-        from alumni a left join major ma on(a.major_id = ma.id)
-                      left join academy ac on(a.academy_id = ac.id)
+        from alumni a left join hlht_major ma on(a.major_id = ma.id)
+                      left join hlht_academy ac on(a.academy_id = ac.id)
         where a.is_delete = 0
         <if test="username != '' and username != null">
             and username like concat('%',#{username},'%')
@@ -26,8 +26,8 @@
     <select id="getList" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniListVo">
         select a.id, a.username, a.stu_id, a.education,
                ac.name as academy, ma.name as major,a.end_year,a.star, a.`status`
-        from alumni a left join major ma on(a.major_id = ma.id)
-                      left join academy ac on(a.academy_id = ac.id)
+        from alumni a left join hlht_major ma on(a.major_id = ma.id)
+                      left join hlht_academy ac on(a.academy_id = ac.id)
         where a.is_delete = 0
         <if test="username != '' and username != null">
             and username like concat('%',#{username},'%')
@@ -48,16 +48,21 @@
     </select>
     <select id="getAuthInfo" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniAuthInfo">
         select a.id,a.stu_id,a.begin_year,a.end_year,a.education,ac.name as academy,ma.name as major,a.`status`,a.auth_time
-        from alumni a left join academy ac on(a.academy_id = ac.id)
-                      left join major ma on(ac.id = ma.academy_id)
+        from alumni a left join hlht_academy ac on(a.academy_id = ac.id)
+                      left join hlht_major ma on(ac.id = ma.academy_id)
         where a.is_delete = 0 and a.id = #{id}
     </select>
     <select id="statisticsById" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniStatisticsVo">
-        select count(dr.id) as donationCount,count(ar.id) as activityCount
-        from alumni a
-                 left join donation_record dr on(a.id = dr.alumni_id)
-                 left join activity_record ar on(a.id = ar.alumni_id)
-        where a.id = #{id}
+        select
+            (select count(ar.activity_id) from alumni a
+            left join activity_record ar on(a.id = ar.alumni_id) where a.id = #{id}) as activityCount,
+            (select count(distinct dr.donation_id) from alumni a
+             left join donation_record dr on(a.id = dr.alumni_id) where a.id = #{id}) as donationCount,
+            (
+                    (select count(id) from donation_apply where apply_id = #{id})
+                    +(select count(id) from back_apply where apply_id = #{id})
+                    +(select count(id) from prove_apply where apply_id = #{id})
+                ) as apply_count
     </select>
     <select id="getCardList" resultType="com.zwx.guatalumni.module.alumni.model.vo.AlumniFriendVo">
         select
@@ -76,7 +81,7 @@
             a.phone,
             a.star
         from
-            alumni a left join major m on(a.major_id = m.id)
+            alumni a left join hlht_major m on(a.major_id = m.id)
         where a.is_delete = 0 and a.id != #{alumniId}
         <if test="searchKey != '' and searchKey != null">
             and a.username like concat('%',#{searchKey},'%')
@@ -119,9 +124,14 @@
     <select id="getLoginInfo" resultType="com.zwx.guatalumni.module.user.model.vo.UserInfoVo">
         select a.id,a.avatar,a.username, a.gender, a.birthday, a.phone, a.address, a.company, a.jor, a.star, a.`password`,
                a.stu_id, a.begin_year, a.education, ac.`name` AS academy, ma.`name` AS major, a.`status`
-        from alumni a left join academy ac on(a.academy_id = ac.id)
-                      left join major ma on(ac.id = ma.academy_id)
+        from alumni a left join hlht_academy ac on(a.academy_id = ac.id)
+                      left join hlht_major ma on(ac.id = ma.academy_id)
         where a.is_delete = 0 and a.id = #{id}
 
+    </select>
+    <select id="getRecords" resultType="com.zwx.guatalumni.module.alumni.model.vo.StarVo">
+        select a.id as alumniId,count(distinct d.donation_id) as donationCount
+        from alumni a left join donation_record d on(a.id = d.alumni_id)
+        group by a.id
     </select>
 </mapper>

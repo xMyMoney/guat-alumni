@@ -8,7 +8,7 @@
         a.place, a.scope, a.quota, count(ar.id) as join_count, a.editor,a.status
         from activity a left join activity_category ac on(a.category_id = ac.id)
                         left join activity_record ar on(a.id = ar.activity_id)
-        where a.is_delete = 0
+        where a.is_delete = 0 group by a.id
         <if test="title != '' and title != null">
             and a.title like concat('%',#{title},'%')
         </if>
@@ -18,7 +18,7 @@
         <if test="status != null">
             and status = #{status}
         </if>
-        having join_count > 0
+        having join_count >= 0
         limit #{current},#{pageSize}
     </select>
     <select id="getTotal" resultType="java.lang.Integer">

@@ -1,6 +1,9 @@
 package com.zwx.guatalumni.module.aliyun.service;
 
+import com.zwx.guatalumni.module.aliyun.model.param.SmsParam;
+
 import java.util.Date;
+import java.util.List;
 
 public interface SmsService {
 
@@ -20,4 +23,6 @@ public interface SmsService {
     void sendNoticeSms(Integer alumniId, String content, Date passTime);
 
     void sendNoticeSms(String username,String phone, String content, Date passTime);
+
+    void sendSms(SmsParam smsParam);
 }

@@ -41,5 +41,14 @@ public class ActivityRecordController extends BaseController {
         }
         return setResult(baseResp);
     }
+
+    @DeleteMapping("/one/{id}")
+    public ResponseResult delActivityRecord(@PathVariable String id) {
+        BaseResp baseResp = new BaseResp();
+        if (!activityRecordService.removeById(id)) {
+            baseResp.setSaveFailMsg();
+        }
+        return setResult(baseResp);
+    }
 }
 

@@ -9,8 +9,10 @@ import com.zwx.guatalumni.module.alumni.model.param.AlumniCardParam;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniInfoParam;
 import com.zwx.guatalumni.module.alumni.model.param.AlumniParam;
 import com.zwx.guatalumni.module.alumni.model.vo.*;
+import com.zwx.guatalumni.module.user.model.vo.UserInfoVo;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -45,4 +47,10 @@ public interface AlumniService extends IService<Alumni> {
     void sendBirthdaySms();
 
     List<OptionsVo> getOptions();
+
+    UserInfoVo getLoginInfo(Integer id);
+
+    void updateStar();
+
+    void export(HttpServletResponse response);
 }

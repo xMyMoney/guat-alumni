@@ -5,8 +5,10 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.hash.Hash;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.zwx.guatalumni.common.constant.FileConstant;
 import com.zwx.guatalumni.common.model.vo.OptionsVo;
 import com.zwx.guatalumni.common.model.vo.PageVo;
@@ -21,12 +23,17 @@ import com.zwx.guatalumni.module.alumni.model.convert.AlumniConvert;
 import com.zwx.guatalumni.module.alumni.service.AlumniFriendService;
 import com.zwx.guatalumni.module.alumni.service.AlumniService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zwx.guatalumni.module.user.model.vo.UserInfoVo;
+import io.swagger.models.auth.In;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -144,9 +151,10 @@ public class AlumniServiceImpl extends ServiceImpl<AlumniMapper, Alumni> impleme
     @Override
     public void sendBirthdaySms() {
         List<Alumni> alumniList = this.list();
-        Date today = DateUtil.parse(DateUtil.today());
+        String today = DateUtil.today().substring(5);
         for (Alumni alumni : alumniList) {
-            if (alumni.getBirthday().compareTo(today) == 0) {
+            String alumniBirthday = DateUtil.format(alumni.getBirthday(), "YYYY-MM-dd").substring(5);
+            if (today.equals(alumniBirthday)) {
                 smsService.sendBirthdaySms(alumni.getId());
             }
         }
@@ -160,7 +168,68 @@ public class AlumniServiceImpl extends ServiceImpl<AlumniMapper, Alumni> impleme
         return optionsVos;
     }
 
+    @Override
+    public UserInfoVo getLoginInfo(Integer id) {
+        return alumniMapper.getLoginInfo(id);
+    }
+
+    @Override
+    public void updateStar() {
+        List<StarVo> starList = alumniMapper.getRecords();
+        for (StarVo starVo : starList) {
+            Integer star = getStar(starVo);
+            UpdateWrapper<Alumni> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.lambda()
+                    .eq(Alumni::getId,starVo.getAlumniId())
+                    .set(Alumni::getStar,star);
+            this.update(updateWrapper);
+        }
+    }
+
+    @Override
+    public void export(HttpServletResponse response) {
+        Workbook workbook = this.export();
+        ServletOutputStream outputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+//            response.setCharacterEncoding("UTF-8");
+//            response.setHeader("content-Type", "application/vnd.ms-excel");
+//            response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(FileConstant.ALUMNI_INFO_NAME,"UTF-8"));
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(FileConstant.ALUMNI_INFO_NAME,"UTF-8"));
+            workbook.write(outputStream);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            IoUtil.close(outputStream);
+        }
+    }
+
+
     private Alumni getOne(String id) {
         return this.getById(id);
     }
+
+    private Integer getStar(StarVo starVo) {
+        Integer donationCount = starVo.getDonationCount();
+        if (donationCount >= 0 && donationCount <= 2) {
+            return 1;
+        }else if(donationCount >= 3 && donationCount <= 4) {
+            return 2;
+        }else if(donationCount >= 5 && donationCount <= 8) {
+            return 3;
+        }else if(donationCount >= 9 && donationCount <= 15) {
+            return 4;
+        }else {
+            return 5;
+        }
+    }
+
 }

@@ -2,15 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwx.guatalumni.module.activity.dao.ActivityRecordMapper">
     <select id="getTotal" resultType="integer">
-
+        select count(ar.id)
+        from activity ac left join activity_record ar on(ac.id = ar.activity_id)
+                         left join alumni al on(al.id = ar.alumni_id)
+        where ar.is_delete = 0
+        <if test="username != '' and username != null">
+            and al.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and ac.title like concat('%',#{title},'%')
+        </if>
     </select>
     <select id="getList" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityRecordVo">
+        select ar.id, date_format(ar.create_time,'%Y-%m-%d %H:%i:%s') as create_time,ac.title,al.username
+        from activity ac left join activity_record ar on(ac.id = ar.activity_id)
+                         left join alumni al on(al.id = ar.alumni_id)
+        where ar.is_delete = 0
+        <if test="username != '' and username != null">
+            and al.username like concat('%',#{username},'%')
+        </if>
+        <if test="title != '' and title != null">
+            and ac.title like concat('%',#{title},'%')
+        </if>
+        limit #{current},#{pageSize}
 
     </select>
     <select id="getJoined" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityVo">
         select a.id, a.create_time, a.update_time, a.is_delete, a.title, a.cover, a.content, a.category_id,
                a.begin_time, a.end_time, a.place, a.scope, a.quota, count(ar.alumni_id) as join_count, a.editor, a.`status`
         from activity a left join activity_record ar on(a.id = ar.activity_id)
-        where a.is_delete = 0 and ar.alumni_id = #{id} having join_count > 0
+        where a.is_delete = 0 and ar.alumni_id = #{id} group by ar.id having join_count > 0
+    </select>
+    <select id="getRankById" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityRankVo">
+        select a.username as alumni,a.star from alumni a where a.id in(
+            select ar.alumni_id
+            from activity ac left join activity_record ar on(ac.id = ar.activity_id)
+            where ac.is_delete = 0 and ar.activity_id = #{id}
+        )
+    </select>
+    <select id="getStatictics" resultType="com.zwx.guatalumni.module.activity.model.vo.ActivityStatisticsVo">
+        select ac.quota,count(ar.id) as joined
+        from activity ac left join activity_record ar on(ac.id = ar.activity_id)
+        where ac.is_delete = 0 and ar.activity_id = #{id}
     </select>
 </mapper>

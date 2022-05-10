@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "BasePageParam", description = "分页请求参数基类")
-public class BasePageParam extends BaseParam {
+public class BasePageParam implements BaseEntity{
 
     @ApiModelProperty(value = "页码 默认1，第一页", example = "1")
     private int current = 1;

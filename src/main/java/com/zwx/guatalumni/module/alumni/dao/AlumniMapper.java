@@ -28,7 +28,7 @@ public interface AlumniMapper extends BaseMapper<Alumni> {
 
     AlumniAuthInfo getAuthInfo(String id);
 
-    AlumniStatisticsVo statisticsById(String id);
+    AlumniStatisticsVo statisticsById(@Param("id") String id);
 
     List<AlumniFriendVo> getCardList(AlumniCardParam alumniCardParam);
 
@@ -36,5 +36,7 @@ public interface AlumniMapper extends BaseMapper<Alumni> {
 
     Alumni getInfoByStuId(@Param("stuId") String stuId);
 
-    UserInfoVo getLoginInfo(@Param("id")Integer id);
+    UserInfoVo getLoginInfo(@Param("id") Integer id);
+
+    List<StarVo> getRecords();
 }

@@ -42,7 +42,7 @@ public class SysDonationController extends BaseController {
     @PostMapping("/one")
     public ResponseResult addDonation(@RequestBody Donation donation) {
         BaseResp baseResp = new BaseResp();
-        if (!donationService.save(donation)) {
+        if (!donationService.saveDonation(donation)) {
             baseResp.setSaveFailMsg();
         }
         return setResult(baseResp);

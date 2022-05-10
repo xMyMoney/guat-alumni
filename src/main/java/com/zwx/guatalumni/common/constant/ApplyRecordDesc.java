@@ -22,7 +22,12 @@ public enum ApplyRecordDesc {
     /**
      * 捐赠申请
      */
-    DONATION(3,"捐赠");
+    DONATION(3,"捐赠"),
+
+    /**
+     * 身份认证
+     */
+    AUTH(4,"身份认证");
 
     private int applyType;
     private String applyDesc;

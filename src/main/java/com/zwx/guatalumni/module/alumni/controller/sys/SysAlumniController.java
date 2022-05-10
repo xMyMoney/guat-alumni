@@ -2,6 +2,7 @@ package com.zwx.guatalumni.module.alumni.controller.sys;
 
 import com.zwx.guatalumni.common.base.BaseController;
 import com.zwx.guatalumni.common.base.BaseResp;
+import com.zwx.guatalumni.common.constant.FileConstant;
 import com.zwx.guatalumni.common.constant.ResultType;
 import com.zwx.guatalumni.common.model.response.ResponseResult;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
@@ -115,24 +116,11 @@ public class SysAlumniController extends BaseController {
     }
 
     @GetMapping("/export")
-    public ResponseResult<Void> export(HttpServletResponse response) {
-        Workbook workbook = alumniService.export();
-        try {
-            response.setHeader("content-Type","application/vnd-ms-excel");
-            response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode("校友信息.xlsx","UTF-8"));
-            workbook.write(response.getOutputStream());
-        }catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            if (workbook != null) {
-                try {
-                    workbook.close();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return setResult(ResultType.SUCCESS);
+    public void export(HttpServletResponse response) {
+
+        alumniService.export(response);
+
+//        return setResult(ResultType.SUCCESS);
     }
 
     @GetMapping("/options")

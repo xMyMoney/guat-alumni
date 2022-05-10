@@ -19,7 +19,7 @@
             a.phone,
             a.star
         from
-            alumni a left join major m on(a.major_id = m.id)
+            alumni a left join hlht_major m on(a.major_id = m.id)
         where a.id in <foreach collection="friendIds" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
     </select>
 </mapper>

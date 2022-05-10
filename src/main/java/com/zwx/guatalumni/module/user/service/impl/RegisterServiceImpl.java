@@ -6,7 +6,10 @@ import com.zwx.guatalumni.common.constant.StatusConstant;
 import com.zwx.guatalumni.module.aliyun.service.SmsService;
 import com.zwx.guatalumni.module.alumni.dao.AlumniMapper;
 import com.zwx.guatalumni.module.alumni.model.entity.Alumni;
+import com.zwx.guatalumni.module.alumni.model.entity.CompareResult;
 import com.zwx.guatalumni.module.alumni.service.AlumniService;
+import com.zwx.guatalumni.module.alumni.service.CompareResultService;
+import com.zwx.guatalumni.module.hlht.service.HlhtAlumniService;
 import com.zwx.guatalumni.module.user.model.param.RegisterParam;
 import com.zwx.guatalumni.module.user.service.LoginService;
 import com.zwx.guatalumni.module.user.service.RegisterService;
@@ -20,6 +23,12 @@ public class RegisterServiceImpl extends ServiceImpl<AlumniMapper,Alumni> implem
 
     @Autowired
     private SmsService smsService;
+
+    @Autowired
+    private HlhtAlumniService hlhtAlumniService;
+
+    @Autowired
+    private CompareResultService compareResultService;
 
     @Override
     public BaseResp<Void> register(Alumni registerParam) {
@@ -37,6 +46,8 @@ public class RegisterServiceImpl extends ServiceImpl<AlumniMapper,Alumni> implem
     }
 
     private boolean check(Alumni registerParam) {
-        return false;
+        CompareResult compareResult = hlhtAlumniService.compareAlumni(registerParam);
+        compareResultService.saveOrUpdate(compareResult);
+        return compareResult.getResultStatus() == 1;
     }
 }

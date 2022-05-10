@@ -44,7 +44,7 @@ public class CodeGenerator {
         // 4、包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null); //模块名
-        pc.setParent("com.zwx.guatalumni.module.alumni");
+        pc.setParent("com.zwx.guatalumni.module.user");
         pc.setController("controller");
         pc.setEntity("model");
         pc.setService("service");
@@ -54,7 +54,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("apply_record");//对哪一张表生成代码
+        strategy.setInclude("admin");//对哪一张表生成代码
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 

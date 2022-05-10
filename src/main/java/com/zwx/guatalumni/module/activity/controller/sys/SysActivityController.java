@@ -45,7 +45,7 @@ public class SysActivityController extends BaseController {
     @PostMapping("/one")
     public ResponseResult addActivity(@RequestBody Activity activity) {
         BaseResp baseResp = new BaseResp();
-        if (!activityService.save(activity)) {
+        if (!activityService.saveActivity(activity)) {
             baseResp.setSaveFailMsg();
         }
         return setResult(baseResp);
@@ -77,6 +77,13 @@ public class SysActivityController extends BaseController {
         }
         return setResult(baseResp);
     }
+
+    @GetMapping("/options")
+    public ResponseResult getOptions() {
+        return setResult(activityService.getOptions());
+    }
+
+
 
 }
 

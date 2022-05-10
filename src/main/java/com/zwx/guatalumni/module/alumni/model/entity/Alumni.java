@@ -140,4 +140,11 @@ public class Alumni implements Serializable {
     private String jor;
 
     private String password;
+
+    private Date loginTime;
+
+    public Alumni(Integer id, Integer status) {
+        this.id = id;
+        this.status = status;
+    }
 }
